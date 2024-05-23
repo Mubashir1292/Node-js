@@ -1,11 +1,7 @@
-//! setting-up the server where the server will listen at the port of 3000
+// * setting the server up and done the changes at my best...
 const express = require("express");
 const app = express();
-
-//* routes setting and handling the new pages
+app.listen(3000, console.log("server gone started"));
 app.get("/hello", (req, res) => {
-  res.send("Task Manager App");
+  res.send("Management App");
 });
-
-const port = 3001;
-app.listen(port, console.log("app"));
