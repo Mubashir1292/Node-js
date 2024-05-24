@@ -1,6 +1,15 @@
 const fs = require("fs");
-fs.readFile("../02FileRead/starter.txt", (err, data) => {
-  err && console.log(err);
-  data && console.log(data.toString());
+const path = require("path");
+fs.readFile(path.join(__dirname, "", "starter.txt"), "utf8", (err, data) => {
+  if (err) {
+    console.log(`Error reading file :${err.message}`);
+    return;
+  }
+  if (data) console.log(data);
 });
-//! we have to read file
+console.log("Hello...");
+//? we have to read file
+/// checking the process errors
+process.on("uncaughtException", (err) => {
+  console.log(`There was an exception ${err}`);
+});
