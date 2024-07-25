@@ -1,3 +1,7 @@
+div.maindiv {
+  height: 200vh;
+  background-color: aquamarine;
+}
 .main {
   font-size: 34px;
   color: green;
