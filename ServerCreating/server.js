@@ -7,15 +7,29 @@ const server = http.createServer((request, response) => {
   //! Doing Routing by using the Node JS
   const path = request.url;
   if (path === "/" || path.toLocaleLowerCase() === "/home") {
-    response.end(data.replace("{{%CONTENT%}}", "You are at Home Page"));
-  } else if (path.toLocaleLowerCase() === "/contact") {
-    response.end(data.replace("{{%CONTENT%}}", "You are at Contact Page"));
+    response.writeHead(200, {
+      "Content-Type": "text/html",
+      "my-header": "Hello,World",
+    });
+    response.end(data.replace("{{%CONTENT%}}", "You are At Home Page"));
   } else if (path.toLocaleLowerCase() === "/about") {
-    response.end(data.replace("{{%CONTENT%}}", "You are at About Page"));
+    response.writeHead(200, {
+      "Content-Type": "text/html",
+      "my-header": "Hello World",
+    });
+    response.end(data.replace("{{%CONTENT%}}", "You are At About Page"));
+  } else if (path.toLocaleLowerCase() === "/contact") {
+    response.writeHead(200, {
+      "Content-Type": "text/html",
+      "my-header": "Hello World",
+    });
+    response.end(data.replace("{{%CONTENT%}}", "You are At Contact Page"));
   } else {
-    response.end(data.replace("{{%CONTENT%}}", "Error 404: Page Not Founded"));
+    response.writeHead(404);
+    response.end(
+      data.replace("{{%CONTENT%}}", "404 Error :Not Found any page ")
+    );
   }
-
   // response.end(data);
   // console.log("New Request receivend");
 });
