@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Request is sending</title>
+    <style>
+      body {
+        margin: 0;
+      }
+      header {
+        background-color: aqua;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      ul {
+        display: flex;
+      }
+      ul li {
+        margin-left: 10px;
+      }
+      h1 {
+        font-size: 34px;
+        font-weight: 600;
+        text-align: center;
+      }
+      ul li a {
+        text-decoration: none;
+        color: black;
+      }
+      ul li a:hover {
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <ul style="list-style-type: none">
+        <li><a href="/Home">Home</a></li>
+        <li><a href="/About">About</a></li>
+        <li><a href="/Contact">Contact</a></li>
+        <li><a href="/Products">Products</a></li>
+      </ul>
+    </header>
+    <main>
+      <h1>{{%CONTENT%}}</h1>
+    </main>
+  </body>
+</html>
