@@ -2,6 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const url = require("url");
 const products = JSON.parse(fs.readFileSync("./data/Products.json", "utf-8"));
+const productDetails = fs.readFileSync("./data/ProductDetails.html", "utf-8");
 //console.log(products);
 //! getting the productsList html file by reading
 const ProductListHTML = fs.readFileSync("./data/ProductList.html", "utf-8");
@@ -18,6 +19,22 @@ let ProductsArray = products.map((prod, index) => {
   output = output.replace("{{%ID%}}", prod.id);
   return output;
 });
+//! signle product details
+const replaceHtml = (template, product) => {
+  let output = template.replace("{{%NAME%}}", product.name);
+  output = output.replace("{{%MODELNAME%}}", product.modeName);
+  output = output.replace("{{%MODELNO%}}", product.modelNumber);
+  output = output.replace("{{%SIZE%}}", product.size);
+  output = output.replace("{{%CAMERA%}}", product.camera);
+  output = output.replace("{{%PRICE%}}", product.price);
+  output = output.replace("{{%COLOR%}}", product.color);
+  output = output.replace("{{%IMAGE%}}", product.productImage);
+  output = output.replace("{{%ID%}}", product.id);
+  output = output.replace("{{%ROM%}}", product.ROM);
+  output = output.replace("{{%DESC%}}", product.Description);
+  return output;
+};
+
 // creating server
 const server = http.createServer((request, response) => {
   console.log("new Request Founded");
@@ -37,12 +54,16 @@ const server = http.createServer((request, response) => {
     response.end(data.replace("{{%CONTENT%}}", "You are at the About Page"));
   } else if (path.toLocaleLowerCase() === "/products") {
     if (!query.id) {
+      let ProductsArray = products.map((prod) => {
+        return replaceHtml(ProductListHTML, prod);
+      });
       response.writeHead(200, {
         "Content-Type": "text/html",
       });
       response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
     } else {
-      response.end("This is product with ID + " + query.id);
+      let ProductDetailsHtml = replaceHtml(productDetails, products[query.id]);
+      response.end(data.replace("{{%CONTENT%}}", ProductDetailsHtml));
     }
   } else {
     response.writeHead(404);
