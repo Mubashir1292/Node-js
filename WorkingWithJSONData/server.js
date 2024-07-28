@@ -3,6 +3,8 @@ const fs = require("fs");
 const url = require("url");
 const products = JSON.parse(fs.readFileSync("./data/Products.json", "utf-8"));
 const productDetails = fs.readFileSync("./data/ProductDetails.html", "utf-8");
+//! custom Modules
+const replaceHtml = require("./data/ReplaceHtml");
 //console.log(products);
 //! getting the productsList html file by reading
 const ProductListHTML = fs.readFileSync("./data/ProductList.html", "utf-8");
@@ -20,27 +22,28 @@ let ProductsArray = products.map((prod, index) => {
   return output;
 });
 //! signle product details
-const replaceHtml = (template, product) => {
-  let output = template.replace("{{%NAME%}}", product.name);
-  output = output.replace("{{%MODELNAME%}}", product.modeName);
-  output = output.replace("{{%MODELNO%}}", product.modelNumber);
-  output = output.replace("{{%SIZE%}}", product.size);
-  output = output.replace("{{%CAMERA%}}", product.camera);
-  output = output.replace("{{%PRICE%}}", product.price);
-  output = output.replace("{{%COLOR%}}", product.color);
-  output = output.replace("{{%IMAGE%}}", product.productImage);
-  output = output.replace("{{%ID%}}", product.id);
-  output = output.replace("{{%ROM%}}", product.ROM);
-  output = output.replace("{{%DESC%}}", product.Description);
-  return output;
-};
+//? Commenting it out cause i have created the custom module
+// const replaceHtml = (template, product) => {
+//   let output = template.replace("{{%NAME%}}", product.name);
+//   output = output.replace("{{%MODELNAME%}}", product.modeName);
+//   output = output.replace("{{%MODELNO%}}", product.modelNumber);
+//   output = output.replace("{{%SIZE%}}", product.size);
+//   output = output.replace("{{%CAMERA%}}", product.camera);
+//   output = output.replace("{{%PRICE%}}", product.price);
+//   output = output.replace("{{%COLOR%}}", product.color);
+//   output = output.replace("{{%IMAGE%}}", product.productImage);
+//   output = output.replace("{{%ID%}}", product.id);
+//   output = output.replace("{{%ROM%}}", product.ROM);
+//   output = output.replace("{{%DESC%}}", product.Description);
+//   return output;
+// };
 
 // creating server
 const server = http.createServer((request, response) => {
   console.log("new Request Founded");
   const data = fs.readFileSync("./index.html", "utf-8");
   let { query, pathname: path } = url.parse(request.url, true);
-  console.log(query);
+  ///console.log(query);
   if (path === "/" || path.toLocaleLowerCase() === "/home") {
     response.writeHead(200, {
       "Content-Type": "text/html",
