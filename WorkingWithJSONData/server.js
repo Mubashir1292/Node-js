@@ -22,9 +22,8 @@ let ProductsArray = products.map((prod, index) => {
 const server = http.createServer((request, response) => {
   console.log("new Request Founded");
   const data = fs.readFileSync("./index.html", "utf-8");
-  const path = request.url;
-  const parsedUrl = url.parse(path);
-  console.log(parsedUrl);
+  let { query, pathname: path } = url.parse(request.url, true);
+  console.log(query);
   if (path === "/" || path.toLocaleLowerCase() === "/home") {
     response.writeHead(200, {
       "Content-Type": "text/html",
@@ -37,10 +36,14 @@ const server = http.createServer((request, response) => {
     });
     response.end(data.replace("{{%CONTENT%}}", "You are at the About Page"));
   } else if (path.toLocaleLowerCase() === "/products") {
-    response.writeHead(200, {
-      "Content-Type": "text/html",
-    });
-    response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
+    if (!query.id) {
+      response.writeHead(200, {
+        "Content-Type": "text/html",
+      });
+      response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
+    } else {
+      response.end("This is product with ID + " + query.id);
+    }
   } else {
     response.writeHead(404);
     response.end(
