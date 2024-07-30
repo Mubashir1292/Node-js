@@ -3,6 +3,11 @@ const fs = require("fs");
 const url = require("url");
 const products = JSON.parse(fs.readFileSync("./data/Products.json", "utf-8"));
 const productDetails = fs.readFileSync("./data/ProductDetails.html", "utf-8");
+
+//? Events creating and using by using the events method...
+const events = require("events");
+//console.log(events);
+
 //! custom Modules
 let replaceHtml = require("./data/ReplaceHtml");
 //console.log(products);
@@ -116,3 +121,14 @@ server.on("request", (request, response) => {
 server.listen(8000, "127.0.0.1", () => {
   console.log("Server on Now...");
 });
+
+//! Custom Event and Emitter classes
+let myEmitter = new events.EventEmitter();
+myEmitter.on("userCreated", () => {
+  console.log("A new User is on");
+});
+myEmitter.on("userCreated", (name, id) => {
+  console.log(`A New User with Name:${name} with ID :${id}`);
+});
+
+myEmitter.emit("userCreated", "Mubashir", 101);
