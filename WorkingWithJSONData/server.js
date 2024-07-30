@@ -4,7 +4,7 @@ const url = require("url");
 const products = JSON.parse(fs.readFileSync("./data/Products.json", "utf-8"));
 const productDetails = fs.readFileSync("./data/ProductDetails.html", "utf-8");
 //! custom Modules
-const replaceHtml = require("./data/ReplaceHtml");
+let replaceHtml = require("./data/ReplaceHtml");
 //console.log(products);
 //! getting the productsList html file by reading
 const ProductListHTML = fs.readFileSync("./data/ProductList.html", "utf-8");
@@ -39,7 +39,45 @@ let ProductsArray = products.map((prod, index) => {
 // };
 
 // creating server
-const server = http.createServer((request, response) => {
+// const server = http.createServer((request, response) => {
+//   console.log("new Request Founded");
+//   const data = fs.readFileSync("./index.html", "utf-8");
+//   let { query, pathname: path } = url.parse(request.url, true);
+//   ///console.log(query);
+//   if (path === "/" || path.toLocaleLowerCase() === "/home") {
+//     response.writeHead(200, {
+//       "Content-Type": "text/html",
+//     });
+//     response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
+//   } else if (path.toLocaleLowerCase() === "/about") {
+//     response.writeHead(200, {
+//       "Content-Type": "text/html",
+//       "my-header": "Mubashir Liaqat",
+//     });
+//     response.end(data.replace("{{%CONTENT%}}", "You are at the About Page"));
+//   } else if (path.toLocaleLowerCase() === "/products") {
+//     if (!query.id) {
+//       let ProductsArray = products.map((prod) => {
+//         return replaceHtml(ProductListHTML, prod);
+//       });
+//       response.writeHead(200, {
+//         "Content-Type": "text/html",
+//       });
+//       response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
+//     } else {
+//       let ProductDetailsHtml = replaceHtml(productDetails, products[query.id]);
+//       response.end(data.replace("{{%CONTENT%}}", ProductDetailsHtml));
+//     }
+//   } else {
+//     response.writeHead(404);
+//     response.end(
+//       data.replace("{{%CONTENT%}}", "404 Error : You are at the Wronge place")
+//     );
+//   }
+// });
+
+const server = http.createServer();
+server.on("request", (request, response) => {
   console.log("new Request Founded");
   const data = fs.readFileSync("./index.html", "utf-8");
   let { query, pathname: path } = url.parse(request.url, true);
@@ -63,7 +101,7 @@ const server = http.createServer((request, response) => {
       response.writeHead(200, {
         "Content-Type": "text/html",
       });
-      response.end(data.replace("{{%CONTENT%}}", ProductsArray.join(",")));
+      response.end(data.replace("{{%CONTENT%}}", ProductsArray));
     } else {
       let ProductDetailsHtml = replaceHtml(productDetails, products[query.id]);
       response.end(data.replace("{{%CONTENT%}}", ProductDetailsHtml));
