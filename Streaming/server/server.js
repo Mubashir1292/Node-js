@@ -34,6 +34,8 @@ server.on("request", (req, res) => {
   let rs = fs.createReadStream("./sample.txt");
   rs.pipe(res);
   //! I am using this pipe method to handle with back presurre like the receiving and sending speed must be same...
+  //? pipe method will work on this system
+  //* readAbleSource.pipe(writeableDestination)
 });
 
 server.listen(8000, "127.0.0.1", () => {
