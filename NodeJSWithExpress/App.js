@@ -19,3 +19,10 @@ app.listen(port, (req, res) => {
 //! front-end and back-end
 //? front-end uses the html,css,js to create ui
 //? backend works with the database , manipulates the data and interact with frontend using apis
+
+// ! there are three types of apis
+//? static websites
+//? dynamic websites
+//? server side rendered websites (To Change the interval from the backend )
+//* Node-JS can create both of the second , third type of websites like it can create the website with dynamically chainging
+//* using the apis and server side rendered websites
