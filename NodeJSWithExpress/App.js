@@ -15,3 +15,7 @@ const port = 3000;
 app.listen(port, (req, res) => {
   console.log("Server is listening");
 });
+
+//! front-end and back-end
+//? front-end uses the html,css,js to create ui
+//? backend works with the database , manipulates the data and interact with frontend using apis
