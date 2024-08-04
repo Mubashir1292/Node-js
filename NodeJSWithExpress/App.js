@@ -2,18 +2,16 @@
 const express = require("express");
 let app = express();
 
-//Route = HTTP Method + URL
+//! Route = http-Method + URl
+//? Sending the response
 app.get("/", (req, res) => {
-  //   res.status(200).send(`<h4>you are at the home place</h4>`);
-  res.status(200).json({ message: "Hello World", status: 200 });
+  //res.status(200).send("You are at the HOME PAGE");
+  res.status(200).json({ name: "Mubashir Liaqat", age: 21 });
 });
-app.post("/", () => {});
-app.get("/404", (req, res) => {
-  res.status(404).send("Error 404:Page not founded");
-});
-
-//create a server
+//? sending the json response
+app.get("/", (req, res) => {});
+// creating the server
 const port = 3000;
-app.listen(port, () => {
-  console.log("Server On hai...");
+app.listen(port, (req, res) => {
+  console.log("Server is listening");
 });
