@@ -26,3 +26,5 @@ app.listen(port, (req, res) => {
 //? server side rendered websites (To Change the interval from the backend )
 //* Node-JS can create both of the second , third type of websites like it can create the website with dynamically chainging
 //* using the apis and server side rendered websites
+//! now understanding the Rest Architecture
+//* function name must be the noun not the verb like the Movies nor be getMovies
