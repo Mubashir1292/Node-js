@@ -28,3 +28,5 @@ app.listen(port, (req, res) => {
 //* using the apis and server side rendered websites
 //! now understanding the Rest Architecture
 //* function name must be the noun not the verb like the Movies nor be getMovies
+
+//! Creating my first api for /Movies by following the REST Architecture as well
