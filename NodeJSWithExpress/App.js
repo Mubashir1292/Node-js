@@ -1,6 +1,8 @@
 //import package
 const express = require("express");
 let app = express();
+//! middle-ware which we use for the
+app.use(express.json());
 
 //! Route = http-Method + URl
 // //? Sending the response
@@ -51,6 +53,29 @@ app.get("/api/v2/movies", (req, res) => {
     },
   });
 });
+
+//! Api Posting using the Node JS and writing the data to the file...
+
+app.post("/api/v1/movie", (req, res) => {
+  //* Creating the new Api using the previous List of movies object
+  const newMovieId = movies[movies.length - 1].id + 1;
+  const newMovie = Object.assign({ id: newMovieId }, req.body);
+  movies.push(newMovie);
+  fs.writeFile("./data/movies.json", JSON.stringify(movies), (err, data) => {
+    if (err) console.log(err);
+    res.status(201).json({
+      status: "success",
+      data: {
+        movie: newMovie,
+      },
+    });
+  });
+  // fs.writeFile("./movies.json", newMovie, (err, data) => {
+  //   if (err) console.log(err);
+  // });
+  //res.send("Created");
+});
+
 // app.post("/api/v1/1/movie", (req, res) => {
 //   res.status(200).send({
 //     status: "success",
