@@ -82,3 +82,26 @@ app.post("/api/v1/movie", (req, res) => {
 //     message: "Data is Posted",
 //   });
 // });
+
+//! Route Parameters with Id Examples as well
+app.get("/api/v1/movieswithparams/:id", (req, res) => {
+  //* converting the id string to number by using the * 1
+  const currentId = req.params.id * 1;
+
+  let currentMovie = movies.find((movie) => movie.id === currentId);
+  console.log(currentMovie);
+  if (!currentMovie) {
+    res.status(404).json({
+      status: "fail",
+      message: "Movie Not Founded",
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      data: {
+        movie: currentMovie,
+      },
+    });
+  }
+  //res.send("Test Params");
+});
