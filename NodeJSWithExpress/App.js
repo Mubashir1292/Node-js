@@ -3,17 +3,16 @@ const express = require("express");
 let app = express();
 
 //! Route = http-Method + URl
-//? Sending the response
-app.get("/", (req, res) => {
-  //res.status(200).send("You are at the HOME PAGE");
-  res.status(200).json({ name: "Mubashir Liaqat", age: 21 });
-});
+// //? Sending the response
+// app.get("/", (req, res) => {
+//   //res.status(200).send("You are at the HOME PAGE");
+//   res.status(200).json({ name: "Mubashir Liaqat", age: 21 });
+// });
 //? sending the json response
-app.get("/", (req, res) => {});
 // creating the server
 const port = 3000;
 app.listen(port, (req, res) => {
-  console.log("Server is listening");
+  console.log("Server is listening on port " + port);
 });
 
 //! front-end and back-end
@@ -30,3 +29,16 @@ app.listen(port, (req, res) => {
 //* function name must be the noun not the verb like the Movies nor be getMovies
 
 //! Creating my first api for /Movies by following the REST Architecture as well
+//? Reading the file movies.json
+const fs = require("fs");
+let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
+// console.log(movies);
+// * /api/movies/v1/
+app.get("/api/v1/movies", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      movies: movies,
+    },
+  });
+});
