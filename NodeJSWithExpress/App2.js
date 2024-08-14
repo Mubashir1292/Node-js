@@ -49,3 +49,25 @@ App.post("/api/v3/movie", (req, res) => {
   //     },
   //   });
 });
+//! getting the Movie of the Api by giving the id
+App.get("/api/v2/moviewithreferenceId/:id", (req, res) => {
+  //* failed to parse the string to int...
+  const id = req.params.id * 1;
+
+  const moviefinding = movies.find((movie) => movie.id === id);
+  if (!moviefinding) {
+    res.status(404).json({
+      status: "fail",
+      data: {
+        message: `Not founded any movie at id ${id}`,
+      },
+    });
+  } else {
+    res.status(200).json({
+      status: "success",
+      data: {
+        movie: moviefinding,
+      },
+    });
+  }
+});

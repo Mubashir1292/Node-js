@@ -93,7 +93,7 @@ app.get("/api/v1/movieswithparams/:id", (req, res) => {
   if (!currentMovie) {
     res.status(404).json({
       status: "fail",
-      message: "Movie Not Founded",
+      message: "Movie Not Founded on id " + currentId,
     });
   } else {
     res.status(200).json({
