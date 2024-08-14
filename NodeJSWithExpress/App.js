@@ -42,3 +42,18 @@ app.get("/api/v1/movies", (req, res) => {
     },
   });
 });
+app.get("/api/v2/movies", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    count: movies.length,
+    data: {
+      movies: movies,
+    },
+  });
+});
+// app.post("/api/v1/1/movie", (req, res) => {
+//   res.status(200).send({
+//     status: "success",
+//     message: "Data is Posted",
+//   });
+// });
