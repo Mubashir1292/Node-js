@@ -142,3 +142,28 @@ app.patch("/api/v1/movies/:id", (req, res) => {
     });
   }
 });
+
+//! Delete Method for deleting the movie from Movies.json
+app.delete("/api/delete/v1/movies/:id", (req, res) => {
+  const newId = req.params.id * 1;
+  const movie = movies.find((m) => m.id === newId);
+  if (!movie) {
+    res.status(404).json({
+      status: "fail",
+      message: `Not Founded any Movie at ${newId}`,
+    });
+  } else {
+    const index = movies.indexOf(movie);
+    movies.splice(index, 1);
+    fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(204).json({
+          status: "success",
+          movie: null,
+        });
+      }
+    });
+  }
+});
