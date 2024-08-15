@@ -30,33 +30,17 @@ app.listen(port, (req, res) => {
 //! now understanding the Rest Architecture
 //* function name must be the noun not the verb like the Movies nor be getMovies
 
-//! Creating my first api for /Movies by following the REST Architecture as well
-//? Reading the file movies.json
-const fs = require("fs");
-let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
-// console.log(movies);
-// * /api/movies/v1/
-app.get("/api/v1/movies", (req, res) => {
+//Todo: Route Handler Functions like the links
+
+const getAllMovies = (req, res) => {
   res.status(200).json({
     status: "success",
     data: {
       movies: movies,
     },
   });
-});
-app.get("/api/v2/movies", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    count: movies.length,
-    data: {
-      movies: movies,
-    },
-  });
-});
-
-//! Api Posting using the Node JS and writing the data to the file...
-
-app.post("/api/v1/movie", (req, res) => {
+};
+const createNewMovie = (req, res) => {
   //* Creating the new Api using the previous List of movies object
   const newMovieId = movies[movies.length - 1].id + 1;
   const newMovie = Object.assign({ id: newMovieId }, req.body);
@@ -74,17 +58,8 @@ app.post("/api/v1/movie", (req, res) => {
   //   if (err) console.log(err);
   // });
   //res.send("Created");
-});
-
-// app.post("/api/v1/1/movie", (req, res) => {
-//   res.status(200).send({
-//     status: "success",
-//     message: "Data is Posted",
-//   });
-// });
-
-//! Route Parameters with Id Examples as well
-app.get("/api/v1/movieswithparams/:id", (req, res) => {
+};
+const getMovieById = (req, res) => {
   //* converting the id string to number by using the * 1
   const currentId = req.params.id * 1;
 
@@ -104,14 +79,8 @@ app.get("/api/v1/movieswithparams/:id", (req, res) => {
     });
   }
   //res.send("Test Params");
-});
-
-//! Updating the existing product using the PUT or Patch api method...
-//* to Update any instance we have to PUT || Patch method...
-//? Difference
-// * Put Method is updating the complete object like the Complete Movies object
-// * Patch Method is updating the single line of key pair value if we have to update...
-app.patch("/api/v1/movies/:id", (req, res) => {
+};
+const UpdateMovieById = (req, res) => {
   const newId = req.params.id * 1;
   //* finding the Movie
   const movie = movies.find((m) => m.id === newId);
@@ -141,10 +110,8 @@ app.patch("/api/v1/movies/:id", (req, res) => {
       }
     });
   }
-});
-
-//! Delete Method for deleting the movie from Movies.json
-app.delete("/api/delete/v1/movies/:id", (req, res) => {
+};
+const DeleteMovieById = (req, res) => {
   const newId = req.params.id * 1;
   const movie = movies.find((m) => m.id === newId);
   if (!movie) {
@@ -166,4 +133,46 @@ app.delete("/api/delete/v1/movies/:id", (req, res) => {
       }
     });
   }
+};
+//! Creating my first api for /Movies by following the REST Architecture as well
+//? Reading the file movies.json
+const fs = require("fs");
+let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
+// console.log(movies);
+// * /api/movies/v1/
+app.get("/api/v1/movies", getAllMovies);
+
+//* 2nd version
+app.get("/api/v2/movies", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    count: movies.length,
+    data: {
+      movies: movies,
+    },
+  });
 });
+
+//! Api Posting using the Node JS and writing the data to the file...
+
+app.post("/api/v1/movie", createNewMovie);
+
+// app.post("/api/v1/1/movie", (req, res) => {
+//   res.status(200).send({
+//     status: "success",
+//     message: "Data is Posted",
+//   });
+// });
+app.get("/api/v1/movieswithparams/:id", getMovieById);
+
+//! Route Parameters with Id Examples as well
+
+//! Updating the existing product using the PUT or Patch api method...
+//* to Update any instance we have to PUT || Patch method...
+//? Difference
+// * Put Method is updating the complete object like the Complete Movies object
+// * Patch Method is updating the single line of key pair value if we have to update...
+app.patch("/api/v1/movies/:id", UpdateMovieById);
+
+//! Delete Method for deleting the movie from Movies.json
+app.delete("/api/delete/v1/movies/:id", DeleteMovieById);
