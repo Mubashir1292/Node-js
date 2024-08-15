@@ -4,6 +4,17 @@ let app = express();
 //! middle-ware which we use for the
 app.use(express.json());
 
+//todo::::    This is the custom Middleware that i need to practice ..
+const logger = (nreq, res, next) => {
+  console.log("Custom Middleware Crossed");
+  next();
+};
+app.use(logger);
+
+app.use((req, res, next) => {
+  req.requestedAt = new Date().toISOString();
+  next();
+});
 //! Route = http-Method + URl
 // //? Sending the response
 // app.get("/", (req, res) => {
@@ -35,6 +46,7 @@ app.listen(port, (req, res) => {
 const getAllMovies = (req, res) => {
   res.status(200).json({
     status: "success",
+    requestedAt: req.requestedAt,
     data: {
       movies: movies,
     },
