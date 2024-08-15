@@ -140,7 +140,6 @@ const fs = require("fs");
 let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
 // console.log(movies);
 // * /api/movies/v1/
-app.get("/api/v1/movies", getAllMovies);
 
 //* 2nd version
 app.get("/api/v2/movies", (req, res) => {
@@ -154,8 +153,19 @@ app.get("/api/v2/movies", (req, res) => {
 });
 
 //! Api Posting using the Node JS and writing the data to the file...
-
-app.post("/api/v1/movie", createNewMovie);
+// app.get("/api/v1/movies", getAllMovies);
+// app.post("/api/v1/movie", createNewMovie);
+// app.get("/api/v1/movieswithparams/:id", getMovieById);
+// app.patch("/api/v1/movies/:id", UpdateMovieById);
+// app.delete("/api/delete/v1/movies/:id", DeleteMovieById);
+//Todo: These are to good but i will use the Route Method like the other one...
+app.route("/api/v1/movies").get(getAllMovies).post(createNewMovie);
+//! 2nd Route
+app
+  .route("/api/v1/movies/:id")
+  .get(getMovieById)
+  .patch(UpdateMovieById)
+  .delete(DeleteMovieById);
 
 // app.post("/api/v1/1/movie", (req, res) => {
 //   res.status(200).send({
@@ -163,7 +173,6 @@ app.post("/api/v1/movie", createNewMovie);
 //     message: "Data is Posted",
 //   });
 // });
-app.get("/api/v1/movieswithparams/:id", getMovieById);
 
 //! Route Parameters with Id Examples as well
 
@@ -172,7 +181,5 @@ app.get("/api/v1/movieswithparams/:id", getMovieById);
 //? Difference
 // * Put Method is updating the complete object like the Complete Movies object
 // * Patch Method is updating the single line of key pair value if we have to update...
-app.patch("/api/v1/movies/:id", UpdateMovieById);
 
 //! Delete Method for deleting the movie from Movies.json
-app.delete("/api/delete/v1/movies/:id", DeleteMovieById);
