@@ -105,3 +105,40 @@ app.get("/api/v1/movieswithparams/:id", (req, res) => {
   }
   //res.send("Test Params");
 });
+
+//! Updating the existing product using the PUT or Patch api method...
+//* to Update any instance we have to PUT || Patch method...
+//? Difference
+// * Put Method is updating the complete object like the Complete Movies object
+// * Patch Method is updating the single line of key pair value if we have to update...
+app.patch("/api/v1/movies/:id", (req, res) => {
+  const newId = req.params.id * 1;
+  //* finding the Movie
+  const movie = movies.find((m) => m.id === newId);
+  if (!movie) {
+    res.status(404).json({
+      status: "fail",
+      message: "Movie not founded at id " + newId,
+    });
+  } else {
+    // * finding the index of the founded movie to update its other elements
+    const index = movies.indexOf(movie);
+    //* updating the movie with name
+    Object.assign(movie, req.body);
+    movies[index] = movie;
+
+    //* writing to the file like after successfully updating the movie
+    fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json({
+          status: "success",
+          data: {
+            movie: movie,
+          },
+        });
+      }
+    });
+  }
+});

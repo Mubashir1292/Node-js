@@ -2,6 +2,7 @@
 const express = require("express");
 const App = express();
 const fs = require("fs");
+const { object } = require("prop-types");
 //! middle-ware for the Posting the data
 App.use(express.json());
 
@@ -68,6 +69,37 @@ App.get("/api/v2/moviewithreferenceId/:id", (req, res) => {
       data: {
         movie: moviefinding,
       },
+    });
+  }
+});
+// ! Patch method to update the Movie
+App.patch("/api/v2/movies/:id", (req, res) => {
+  //* getting the id from Route Parameters
+  const newId = req.params.id * 1;
+  //* finding the Movie from the file
+  const movie = movies.find((m) => m.id === newId);
+  if (!movie) {
+    res.status(404).json({
+      status: "fail",
+      message: "fail to Find the Movie at id " + newId,
+    });
+  } else {
+    fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        //* finding the index of that movie...
+        const index = movies.indexOf(movie);
+        //* updating the movie and replacing it...
+        Object.assign(movie, req.body);
+        movies[index] = movie;
+        res.status(200).json({
+          status: "success",
+          data: {
+            movies: movie,
+          },
+        });
+      }
     });
   }
 });
