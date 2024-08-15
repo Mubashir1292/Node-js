@@ -161,12 +161,9 @@ app.get("/api/v2/movies", (req, res) => {
 //Todo: These are to good but i will use the Route Method like the other one...
 app.route("/api/v1/movies").get(getAllMovies).post(createNewMovie);
 //! 2nd Route
-app
-  .route("/api/v1/movies/:id")
-  .get(getMovieById)
-  .patch(UpdateMovieById)
-  .delete(DeleteMovieById);
+app.route("/api/v1/movies/:id").get(getMovieById).delete(DeleteMovieById);
 
+app.route("/api/v1/movieswithparams/:id").patch(UpdateMovieById);
 // app.post("/api/v1/1/movie", (req, res) => {
 //   res.status(200).send({
 //     status: "success",
