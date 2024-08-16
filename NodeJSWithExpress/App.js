@@ -4,6 +4,8 @@ let app = express();
 //! middle-ware which we use for the
 app.use(express.json());
 
+//! morgan checking and practici
+const morgan = require("morgan");
 //todo::::    This is the custom Middleware that i need to practice ..
 const logger = (nreq, res, next) => {
   console.log("Custom Middleware Crossed");
@@ -11,6 +13,7 @@ const logger = (nreq, res, next) => {
 };
 app.use(logger);
 
+app.use(morgan("dev"));
 app.use((req, res, next) => {
   req.requestedAt = new Date().toISOString();
   next();
