@@ -33,7 +33,7 @@ exports.getMovieById = (req, res) => {
   const currentId = req.params.id * 1;
 
   let currentMovie = movies.find((movie) => movie.id === currentId);
-  console.log(currentMovie);
+  //   console.log(currentMovie);
   if (!currentMovie) {
     res.status(404).json({
       status: "fail",
