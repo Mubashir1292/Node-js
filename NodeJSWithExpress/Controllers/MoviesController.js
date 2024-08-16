@@ -1,5 +1,15 @@
 const fs = require("fs");
 let movies = JSON.parse(fs.readFileSync("./data/movies.json"));
+exports.checkId = (req, res, next, value) => {
+  let movieFinding = movies.find((movie) => movie.id === value * 1);
+  if (!movieFinding) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Not founded any movie on id " + value,
+    });
+  }
+  next();
+};
 exports.getAllMovies = (req, res) => {
   res.status(200).json({
     status: "success",
@@ -34,41 +44,39 @@ exports.getMovieById = (req, res) => {
 
   let currentMovie = movies.find((movie) => movie.id === currentId);
   //   console.log(currentMovie);
-  if (!currentMovie) {
-    res.status(404).json({
-      status: "fail",
-      message: "Movie Not Founded on id " + currentId,
-    });
-  } else {
-    res.status(200).json({
-      status: "success",
-      data: {
-        movie: currentMovie,
-      },
-    });
-  }
-  //res.send("Test Params");
+  //   if (!currentMovie) {
+  //     return res.status(404).json({
+  //       status: "fail",
+  //       message: "Movie Not Founded on id " + currentId,
+  //     });
+  //   }
+  res.status(200).json({
+    status: "success",
+    data: {
+      movie: currentMovie,
+    },
+  });
 };
+//res.send("Test Params");
 exports.DeleteMovieById = (req, res) => {
   const newId = req.params.id * 1;
   const movie = movies.find((m) => m.id === newId);
-  if (!movie) {
-    res.status(404).json({
-      status: "fail",
-      message: `Not Founded any Movie at ${newId}`,
-    });
-  } else {
-    const index = movies.indexOf(movie);
-    movies.splice(index, 1);
-    fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.status(204).json({
-          status: "success",
-          movie: null,
-        });
-      }
-    });
-  }
+  //   if (!movie) {
+  //     return res.status(404).json({
+  //       status: "fail",
+  //       message: `Not Founded any Movie at ${newId}`,
+  //     });
+  //   }
+  const index = movies.indexOf(movie);
+  movies.splice(index, 1);
+  fs.writeFile("./data/movies.json", JSON.stringify(movies), (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(204).json({
+        status: "success",
+        movie: null,
+      });
+    }
+  });
 };
